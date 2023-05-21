@@ -70,6 +70,20 @@ const App = () => {
 
       
   };
+  const mintFun = async () => {
+    const value = ethers.parseUnits(transfervalue, 18);
+    const tx = await contract
+      .mint(selectedAddress, value)
+      .then((res: any) => {
+        alert("Wait for Transaction to Mine");
+
+      }).catch((e:any)=>{
+        console.log('e', e)
+
+      })
+
+      
+  };
   const burnFun = async () => {
     const value = ethers.parseUnits(burnValue, 18);
     console.log('value', value)
@@ -129,6 +143,33 @@ const App = () => {
         </div>
       );
       break;
+    case "mint":
+      contentToRender = (
+        <div>
+          <div>
+            <select className="selectInput" onChange={(e) => setSelectedAddress(e.target.value)}>
+              {transferAddress.map((item) => {
+                return (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div>
+            <input type="text"
+              placeholder="Enter value"
+              className="selectInput input"
+              onChange={(e) => settransfervalue(e.target.value)}
+            ></input>
+          </div>
+          <div>
+            <button onClick={mintFun}>Mint</button>
+          </div>
+        </div>
+      );
+      break;
     case "burn":
       contentToRender = (
         <div>
@@ -158,6 +199,8 @@ const App = () => {
         >
           <option value="">Select an Operation</option>
           <option value="transfer">Transfer Tokens</option>
+          <option value="mint">Mint Tokens</option>
+
           <option value="burn">Burn Tokens</option>
         </select>
       </div>
